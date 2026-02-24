@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 from typing import Optional
 
@@ -29,7 +29,7 @@ class BookCreate(BaseModel):
     title: str
     author: str
     description: str
-    total_copies: int
+    total_copies: int = Field(gt=0)
     # available_copies: int
 
 
@@ -37,9 +37,8 @@ class BookUpdate(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
     description: Optional[str] = None
-    total_copies: Optional[int] = None
-    available_copies: Optional[int] = None
-    created_at: Optional[datetime] = None
+    total_copies: Optional[int] = Field(None, gt=0)
+    available_copies: Optional[int] = Field(None, ge=0)
 
 
 #Response Schema

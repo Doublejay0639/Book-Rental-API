@@ -2,7 +2,7 @@ from fastapi import APIRouter,status, HTTPException, Depends
 from .. import models, schemas, oauth2
 from ..database import get_db
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 
 router = APIRouter(
@@ -30,3 +30,14 @@ def add_book(Book: schemas.BookCreate, db: Session = Depends(get_db), current_us
     db.commit()
     db.refresh(new_book)
     return new_book
+
+@router.get("/", response_model=List[schemas.BookOut])
+def get_all_books(db: Session = Depends(get_db), search: Optional[str] = ""):
+
+    books = db.query(models.Book).filter(models.Book.title.contains(search)).all()
+    return books
+
+
+
+#Get book by {id} skipped
+
