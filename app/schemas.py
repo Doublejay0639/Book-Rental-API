@@ -55,10 +55,11 @@ class BookOut(BaseModel):
         from_attributes = True
 
 
-class RentalCreate(BaseModel):
+class RentedBook(BaseModel):
     id: int
-    book_id: int
-    user_id: int
+    title: str
+    author: str
+    description: str
 
 
 class RentalOut(BaseModel):
@@ -67,6 +68,8 @@ class RentalOut(BaseModel):
     user_id: int
     rented_at: datetime
     returned_at: Optional[datetime] = None
+    user: UserOut
+    book: RentedBook
 
     class Config:
         from_attributes = True
